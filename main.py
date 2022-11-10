@@ -71,11 +71,9 @@ for i in range(180):
     diff = cv2.absdiff(dst12, dst13)
 
     # post processing
-    thresh = cv2.threshold(diff, 20, 255, cv2.THRESH_BINARY)[1]
+    binary_img = cv2.threshold(diff, 20, 255, cv2.THRESH_BINARY)[1]
     kernel_1 = cv2.getStructuringElement(cv2.MORPH_RECT,(3, 3))
-    erosion = cv2.erode(thresh, kernel_1, iterations = 1)
-    kernel_2 = cv2.getStructuringElement(cv2.MORPH_RECT,(9, 9))
-    dilation = cv2.dilate(erosion, kernel_2, iterations = 3)
+    binary_img = cv2.erode(binary_img, kernel_1, iterations = 1)
 
     # _, contours, hierarchy = cv2.findContours(dilation.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     # num = 0
@@ -95,7 +93,7 @@ for i in range(180):
     #     box = np.int0(box)
     #     loc.append(box.tolist())
     #     cv2.drawContours(first_frame, [box], 0, 255, 2)
-    cv2.imshow('frame', thresh)
+    cv2.imshow('frame', binary_img)
 
     first_frame = second_frame
     second_frame = third_frame
